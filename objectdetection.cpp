@@ -36,17 +36,19 @@ Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	IplImage *pres = cvCreateImage(cvSize(psrc->width,psrc->height),IPL_DEPTH_16S,1);//保存相减的结果
 
 	//psrc减pbkd,结果存于pres;返会差值的最大最小值
-	MinMax minmax = mcvSubAbs(psrc,pbkd,pres);
+	MinMax minmax = mcvSub(psrc,pbkd,pres);
 	//------------------------------------------
-	//建立pbw保存pres的二值化结果
-	IplImage *pbw = cvCreateImage(cvSize(psrc->width, psrc->height), IPL_DEPTH_8U, 1);
-	cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min << endl;
-	mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY);
-	cvNamedWindow("pbw");
-	cvShowImage("pbw", pbw);
-	cvWaitKey(0);
-	cvDestroyWindow("pbw");
-	cvReleaseImage(&pbw);
+	////两图片相减后，目标返回的可能为负，也可能为正，使用二值化并不妥，改为其他方式
+	////建立pbw保存pres的二值化结果
+	////IplImage *pbw = cvCreateImage(cvSize(psrc->width, psrc->height), IPL_DEPTH_8U, 1);
+	////cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min << endl;
+	////mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY);
+	//////mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY_INV);
+	////cvNamedWindow("pbw");
+	////cvShowImage("pbw", pbw);
+	////cvWaitKey(0);
+	////cvDestroyWindow("pbw");
+	////cvReleaseImage(&pbw);
 	//-----------------------------------------
 	//----------------------------------------------
 	//将图片压缩至0-255范围,用于直观感受相减的结果
