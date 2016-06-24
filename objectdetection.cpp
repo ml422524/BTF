@@ -5,20 +5,23 @@ void bkdminus_demo()
 {
 	const char *pbkdTitle = "src";
 	const char *pImgTitle = "img";
+
 	IplImage *pbkd = cvLoadImage(string(respicrpath + "/bkd.jpg").c_str());
 	IplImage *pimg = cvLoadImage(string(respicrpath + "/frame.jpg").c_str());
 
 	vector<CvRect> vRect = objdetect_bkrndminus(pimg, pbkd);
 
-	cvNamedWindow(pbkdTitle);
-	cvShowImage(pbkdTitle, pbkd);
-
 	//画目标框
-	mcvDrawRect(pimg,vRect,cvScalar(255.0));
-
+	if (vRect.size() > 0)
+	{
+		//std::cout << "vRect.size() = " << vRect.size() << std::endl;
+		mcvDrawRect(pimg, vRect, cvScalar(255.0));
+	}
 	cvNamedWindow(pImgTitle);
 	cvShowImage(pImgTitle, pimg);
 
+	cvNamedWindow(pbkdTitle);
+	cvShowImage(pbkdTitle, pbkd);
 	cvWaitKey(0);
 
 	cvDestroyWindow(pbkdTitle);
@@ -69,21 +72,21 @@ vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	//建立pbw保存pres的二值化结果
 	IplImage *pbw = cvCreateImage(cvSize(psrc->width, psrc->height), IPL_DEPTH_8U, 1);
 	mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY);
-	cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min << endl;
-	cvNamedWindow("pbw");
-	cvShowImage("pbw", pbw);
-	cvWaitKey(0);
-	cvDestroyWindow("pbw");
-	cvReleaseImage(&pbw);
+	//cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min << endl;
+	//cvNamedWindow("pbw");
+	//cvShowImage("pbw", pbw);
+	//cvWaitKey(0);
+	//cvDestroyWindow("pbw");
+	//cvReleaseImage(&pbw);
 	//-----------------------------------------
 	//----------------------------------------------
 	//将图片压缩至0-255范围,用于直观感受相减的结果
-	IplImage *dst = mcvImageLinearCompress(pres,minmax);
-	cvNamedWindow("dst");
-	cvShowImage("dst", dst);
-	cvWaitKey(0);
-	cvDestroyWindow("dst");
-	cvReleaseImage(&dst);
+	//IplImage *dst = mcvImageLinearCompress(pres,minmax);
+	//cvNamedWindow("dst");
+	//cvShowImage("dst", dst);
+	//cvWaitKey(0);
+	//cvDestroyWindow("dst");
+	//cvReleaseImage(&dst);
 	//----------------------------------------------
 	//----------------------------------------------
 	//确定目标区域
@@ -94,6 +97,8 @@ vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	//create storage for contours
 	CvMemStorage *storage = cvCreateMemStorage(0);
 	CvRect rect;  CvSeq *contours = 0;
+	//find contours
+	cvFindContours(pbw, storage, &contours);
 	//draw bounding box around each contour
 	for (; contours != 0; contours = contours->h_next)
 	{
@@ -107,8 +112,7 @@ vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 		}
 	}
 	//----------------------------------------------
-
-	write2file(string(restfwpath+"/subImage.txt").c_str(),pres);
+	//write2file(string(restfwpath+"/subImage.txt").c_str(),pres);
 	//释放资源
 	if (psrcflag)
 	{
@@ -119,6 +123,7 @@ vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 		cvReleaseImage(&pbkd);
 	}
 	cvReleaseImage(&pres);
+	cvReleaseImage(&pbw);
 	//返回位置向量
 	return vRect;
 }
