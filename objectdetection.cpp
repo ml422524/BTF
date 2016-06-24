@@ -104,7 +104,7 @@ vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	{
 		//extract bounding box for current contour
 		double area = fabs(cvContourArea(contours));
-		if (area > 500)//此处可能会继续优化，确定某一范围为所需的目标，例如(500,1000)
+		if (area > 500.0)//此处可能会继续优化，确定某一范围为所需的目标，例如(500,1000)
 		{
 			rect = cvBoundingRect(contours, 0);
 			//加入vRect
