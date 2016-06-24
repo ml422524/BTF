@@ -15,6 +15,7 @@ void bkdminus_demo()
 
 	//画目标框
 
+
 	cvNamedWindow(pImgTitle);
 	cvShowImage(pImgTitle, pimg);
 
@@ -38,7 +39,7 @@ vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	//如果图像大小不一致
 	if ((psrc->width != pbkd->width) || (psrc->height != pbkd->height))
 	{
-		return Rect(-1,-1,0,0);
+		return vRect;
 	}
 	//如果图像大小一致
 	//若不是灰度图，则全部转化为灰度图	
@@ -433,3 +434,20 @@ IplImage *mcvImageLinearCompress(IplImage *src, const MinMax &mm)
 	return dst;
 }
 
+/*
+*功能：在图像上画矩形框
+*参数：
+*img,图像；vRect，矩形坐标向量；color，颜色
+*返回值：无
+*/
+void mcvDrawRect(IplImage *img, const vector<CvRect> &vRect, CvScalar color)
+{
+	int size = vRect.size();
+	for (int i = 0; i < size; ++i)
+	{
+		//画图时以两点坐标的闭区间形式画图，若超出边界，则保持原样，即不画矩形；
+		cvRectangle(img,cvPoint(vRect[i].x,vRect[i].y),
+			cvPoint(vRect[i].x + vRect[i].width, vRect[i].y + vRect[i].height),
+			color);
+	}
+}

@@ -49,5 +49,12 @@ void mcvThreshold(IplImage *src,IplImage *dst,double threshold,double max_value,
 */
 IplImage *mcvImageLinearCompress(IplImage *src,const MinMax &mm);
 
+/*
+*功能：在图像上画矩形框
+*参数：
+*img,图像；vRect，矩形坐标向量；color，颜色
+*返回值：无
+*/
+void mcvDrawRect(IplImage *img,const vector<CvRect> &vRect,CvScalar color);
 
 #endif
