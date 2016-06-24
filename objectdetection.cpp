@@ -40,8 +40,8 @@ Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	//------------------------------------------
 	//建立pbw保存pres的二值化结果
 	IplImage *pbw = cvCreateImage(cvSize(psrc->width, psrc->height), IPL_DEPTH_8U, 1);
-	cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min << endl;
-	mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 7.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY);
+	cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min << endl;
+	mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY);
 	cvNamedWindow("pbw");
 	cvShowImage("pbw", pbw);
 	cvWaitKey(0);
