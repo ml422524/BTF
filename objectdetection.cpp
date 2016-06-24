@@ -40,8 +40,8 @@ Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	//------------------------------------------
 	//建立pbw保存pres的二值化结果
 	IplImage *pbw = cvCreateImage(cvSize(psrc->width, psrc->height), IPL_DEPTH_8U, 1);
-	cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min << endl;
 	mcvThreshold(pres, pbw, (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min, 255.0, CV_THRESH_BINARY);
+	cout << minmax.min << " " << minmax.max << " " << (minmax.max - minmax.min) * 5.0 / 10.0 + minmax.min << endl;
 	cvNamedWindow("pbw");
 	cvShowImage("pbw", pbw);
 	cvWaitKey(0);
@@ -50,16 +50,32 @@ Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 	//-----------------------------------------
 	//----------------------------------------------
 	//将图片压缩至0-255范围,用于直观感受相减的结果
-	//IplImage *dst = mcvImageLinearCompress(pres,minmax);
-	//cvNamedWindow("dst");
-	//cvShowImage("dst", dst);
-	//cvWaitKey(0);
-	//cvDestroyWindow("dst");
-	//cvReleaseImage(&dst);
+	IplImage *dst = mcvImageLinearCompress(pres,minmax);
+	cvNamedWindow("dst");
+	cvShowImage("dst", dst);
+	cvWaitKey(0);
+	cvDestroyWindow("dst");
+	cvReleaseImage(&dst);
 	//----------------------------------------------
 	//----------------------------------------------
 	//确定目标区域
-	//
+	//自定义5*5,参考点（3,3）的矩形模板
+	IplConvKernel *myModel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_RECT);
+	//膨胀
+	cvDilate(pbw, pbw, myModel, 1);	
+	//create storage for contours
+	CvMemStorage *storage = cvCreateMemStorage(0);
+	CvRect rect;  CvSeq *contours = 0;
+	//draw bounding box around each contour
+	for (; contours != 0; contours = contours->h_next)
+	{
+		//extract bounding box for current contour
+		double area = fabs(cvContourArea(contours));
+		if (area > 500)//此处可能会继续优化，确定某一范围为所需的目标，例如(500,1000)
+		{
+			rect = cvBoundingRect(contours, 0);
+		}
+	}
 	//----------------------------------------------
 
 	write2file(string(restfwpath+"/subImage.txt").c_str(),pres);
