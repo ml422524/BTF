@@ -1,5 +1,31 @@
 #include "objectdetection.h"
 
+//背景减除法简单测试
+void bkdminus_demo()
+{
+	const char *pbkdTitle = "src";
+	const char *pImgTitle = "img";
+	IplImage *pbkd = cvLoadImage(string(respicrpath + "/bkd.jpg").c_str());
+	IplImage *pimg = cvLoadImage(string(respicrpath + "/frame.jpg").c_str());
+
+	vector<CvRect> vRect = objdetect_bkrndminus(pimg, pbkd);
+
+	cvNamedWindow(pbkdTitle);
+	cvShowImage(pbkdTitle, pbkd);
+
+	//画目标框
+
+	cvNamedWindow(pImgTitle);
+	cvShowImage(pImgTitle, pimg);
+
+	cvWaitKey(0);
+
+	cvDestroyWindow(pbkdTitle);
+	cvReleaseImage(&pbkd);
+	cvDestroyWindow(pImgTitle);
+	cvReleaseImage(&pimg);
+}
+
 /*
 *功能：检测运动目标（使用条件：场景不变，目标在动；使用方法：背景减除法）
 *参数：
@@ -407,26 +433,3 @@ IplImage *mcvImageLinearCompress(IplImage *src, const MinMax &mm)
 	return dst;
 }
 
-//背景减除法简单测试
-void bkdminus_demo()
-{
-	const char *pSrcTitle = "src";
-	const char *pImgTitle = "img";
-	IplImage *psrc = cvLoadImage(string(respicrpath + "/bkd.jpg").c_str());
-	IplImage *pimg = cvLoadImage(string(respicrpath + "/frame.jpg").c_str());
-
-	objdetect_bkrndminus(pimg, psrc);
-
-	cvNamedWindow(pSrcTitle);
-	cvShowImage(pSrcTitle,psrc);
-
-	cvNamedWindow(pImgTitle);
-	cvShowImage(pImgTitle, pimg);
-
-	cvWaitKey(0);
-
-	cvDestroyWindow(pSrcTitle);
-	cvReleaseImage(&psrc);
-	cvDestroyWindow(pImgTitle);
-	cvReleaseImage(&pimg);
-}
