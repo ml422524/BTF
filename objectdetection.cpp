@@ -14,7 +14,7 @@ void bkdminus_demo()
 	cvShowImage(pbkdTitle, pbkd);
 
 	//»­Ä¿±ê¿ò
-
+	mcvDrawRect(pimg,vRect,cvScalar(255.0));
 
 	cvNamedWindow(pImgTitle);
 	cvShowImage(pImgTitle, pimg);
