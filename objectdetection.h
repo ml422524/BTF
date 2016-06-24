@@ -6,14 +6,15 @@
 #include "regions.h"
 #include "function.h"
 #include "variable.h"
-
+#include <vector>
+using std::vector;
 /*
 *功能：检测运动目标（使用条件：场景不变，目标在动；使用方法：背景减除法）
 *参数：
 *psrc为原图指针，pbkd为背景图像指针（psrc，pbkd不限通道数，如果非灰度图像，则建立灰度图像副本；如果是灰度图像，则不转换）
 *返回值:坐标
 */
-Rect objdetect_bkrndminus(IplImage *psrc,IplImage *pbkd);
+vector<CvRect> objdetect_bkrndminus(IplImage *psrc,IplImage *pbkd);
 
 /*
 *功能：计算两幅图像之差（pimg1-pimg2）

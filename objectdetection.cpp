@@ -6,8 +6,9 @@
 *psrc为原图指针，pbkd为背景图像指针（psrc，pbkd不限通道数，如果非灰度图像，则建立灰度图像副本；如果是灰度图像，则不转换）
 *返回值:坐标
 */
-Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
+vector<CvRect> objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 {
+	vector<CvRect> vRect;
 	//如果图像大小不一致
 	if ((psrc->width != pbkd->width) || (psrc->height != pbkd->height))
 	{
@@ -74,6 +75,8 @@ Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 		if (area > 500)//此处可能会继续优化，确定某一范围为所需的目标，例如(500,1000)
 		{
 			rect = cvBoundingRect(contours, 0);
+			//加入vRect
+			vRect.push_back(rect);
 		}
 	}
 	//----------------------------------------------
@@ -89,8 +92,8 @@ Rect objdetect_bkrndminus(IplImage *psrc, IplImage *pbkd)
 		cvReleaseImage(&pbkd);
 	}
 	cvReleaseImage(&pres);
-	//返回位置
-	return Rect();
+	//返回位置向量
+	return vRect;
 }
 
 /*
