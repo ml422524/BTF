@@ -8,6 +8,10 @@
 #include "variable.h"
 #include <vector>
 using std::vector;
+
+//背景减除法简单测试
+void bkdminus_demo();
+
 /*
 *功能：检测运动目标（使用条件：场景不变，目标在动；使用方法：背景减除法）
 *参数：
@@ -45,8 +49,5 @@ void mcvThreshold(IplImage *src,IplImage *dst,double threshold,double max_value,
 */
 IplImage *mcvImageLinearCompress(IplImage *src,const MinMax &mm);
 
-
-//背景减除法简单测试
-void bkdminus_demo();
 
 #endif
