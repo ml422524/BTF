@@ -155,6 +155,105 @@ MinMax mcvSub(IplImage *pimg1, IplImage *pimg2, IplImage *pres)
 	}//end for
 	return MinMax(min,max);
 }
+
+/*
+*功能：图像相减，并取绝对值
+*参数：
+*pimg1，pimg2灰度图像，pres保存相减的结果(函数中暂时只支持IPL_DEPTH_8S，IPL_DEPTH_16S，IPL_DEPTH_32S的深度)
+*返回值：相减之后的最大与最小值，存于类MinMax
+*/
+MinMax mcvSubAbs(IplImage *pimg1, IplImage *pimg2, IplImage *pres)
+{
+	//检验是否为灰度图
+	if (pimg1->nChannels != 1 || pimg2->nChannels != 1)
+	{
+		printf("input image must be gray images!\n"); exit(0);
+	}
+	int min, max;//保存最小最大值
+	for (int y = 0; y < pimg1->height; ++y)
+	{
+		//获取每行的初始地址
+		uchar *p1 = (uchar *)(pimg1->imageData + y * pimg1->widthStep);
+		uchar *p2 = (uchar *)(pimg2->imageData + y * pimg2->widthStep);
+		switch ((unsigned int)pres->depth)
+		{
+		case IPL_DEPTH_8S://IPL_DEPTH_8S单独的话当无符号处理
+		{
+			//printf("IPL_DEPTH_8S\n");//验证用
+			char *ps = (char*)(pres->imageData + y * pres->widthStep);
+			for (int x = 0; x < pimg1->width; ++x)
+			{
+				//计算并设置差值(取绝对值)
+				if (p1[x] - p2[x] < 0)
+					ps[x] = p2[x] - p1[x];
+				else
+					ps[x] = p1[x] - p2[x];
+				//求最小最大值
+				if (y == 0 && x == 0)
+				{
+					min = ps[x]; max = ps[x];
+				}
+				if (ps[x] < min)
+					min = ps[x];
+				if (ps[x] > max)
+					max = ps[x];
+			}
+		}
+		break;
+		case IPL_DEPTH_16S://IPL_DEPTH_16S单独的话当无符号处理
+		{
+			//printf("IPL_DEPTH_16S\n");//验证用
+			short *ps = (short*)(pres->imageData + y * pres->widthStep);
+			for (int x = 0; x < pimg1->width; ++x)
+			{
+				//计算并设置差值(取绝对值)
+				if (p1[x] - p2[x] < 0)
+					ps[x] = p2[x] - p1[x];
+				else
+					ps[x] = p1[x] - p2[x];
+				//求最小最大值
+				if (y == 0 && x == 0)
+				{
+					min = ps[x]; max = ps[x];
+				}
+				if (ps[x] < min)
+					min = ps[x];
+				if (ps[x] > max)
+					max = ps[x];
+			}
+		}
+		break;
+		case IPL_DEPTH_32S://IPL_DEPTH_32S单独的话当无符号处理
+		{
+			//printf("IPL_DEPTH_32S\n");//验证用
+			int *ps = (int*)(pres->imageData + y * pres->widthStep);
+			for (int x = 0; x < pimg1->width; ++x)
+			{
+				//计算并设置差值(取绝对值)
+				if (p1[x] - p2[x] < 0)
+					ps[x] = p2[x] - p1[x];
+				else
+					ps[x] = p1[x] - p2[x];
+				//求最小最大值
+				if (y == 0 && x == 0)
+				{
+					min = ps[x]; max = ps[x];
+				}
+				if (ps[x] < min)
+					min = ps[x];
+				if (ps[x] > max)
+					max = ps[x];
+			}
+		}
+		break;
+		default:
+			printf("pres's depth isn't supported!\n"); exit(0);
+			break;
+		}//end switch-case
+	}//end for
+	return MinMax(min, max);
+}
+
 /*
 *功能：二值化(函数中src暂时只支持IPL_DEPTH_8S，IPL_DEPTH_16S，IPL_DEPTH_32S的深度)
 */
@@ -278,6 +377,7 @@ IplImage *mcvImageLinearCompress(IplImage *src, const MinMax &mm)
 	}
 	return dst;
 }
+
 //背景减除法简单测试
 void bkdminus_demo()
 {

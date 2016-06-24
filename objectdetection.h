@@ -18,10 +18,18 @@ Rect objdetect_bkrndminus(IplImage *psrc,IplImage *pbkd);
 /*
 *功能：计算两幅图像之差（pimg1-pimg2）
 *参数：
-*pimg1，pimg2灰度图像，pres保存相减的结果
+*pimg1，pimg2灰度图像，pres保存相减的结果(函数中暂时只支持IPL_DEPTH_8S，IPL_DEPTH_16S，IPL_DEPTH_32S的深度)
 *返回值：相减之后的最大与最小值，存于类MinMax
 */
 MinMax mcvSub(IplImage *pimg1,IplImage *pimg2,IplImage *pres);
+
+/*
+*功能：图像相减，并取绝对值
+*参数：
+*pimg1，pimg2灰度图像，pres保存相减的结果(函数中暂时只支持IPL_DEPTH_8S，IPL_DEPTH_16S，IPL_DEPTH_32S的深度)
+*返回值：相减之后的最大与最小值，存于类MinMax
+*/
+MinMax mcvSubAbs(IplImage *pimg1, IplImage *pimg2, IplImage *pres);
 
 /*
 *功能：二值化(函数中src暂时只支持IPL_DEPTH_8S，IPL_DEPTH_16S，IPL_DEPTH_32S的深度)
