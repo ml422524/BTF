@@ -1,5 +1,3 @@
-#include "cv.h"
-#include <vector>
 #include "ipoint.h"
 
 //! Populate IpPairVec with matched ipts 

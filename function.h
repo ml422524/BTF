@@ -1,18 +1,18 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
-#include <fstream>
 #include <iostream>
-#include "cv.h"
-#include "ipoint.h"
+#include <fstream>
 #include <vector>
+
+#include "cv.h"
 #include "highgui.h"
+
+#include "ipoint.h"
+
 
 using std::ofstream;
 using std::ifstream;
-using std::cout;
-using std::endl;
-using std::vector;
 
 /*
 *功能：将数据写入文件

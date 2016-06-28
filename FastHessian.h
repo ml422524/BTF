@@ -1,11 +1,12 @@
 #ifndef _FASTHESSIAN_H_
 #define _FASTHESSIAN_H_
 
-#include "cv.h"
-#include "ipoint.h"
 #include <vector>
 #include <memory.h>
+#include "cv.h"
+#include "ipoint.h"
 #include "integral.h"
+
 /*start of ResponseLayer*/
 class ResponseLayer
 {

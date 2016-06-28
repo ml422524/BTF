@@ -13,7 +13,7 @@ void writerfile(const char *filename, double *p, int imax)
 	ofstream out(filename);
 	for (int i = 0; i < imax; ++i)
 	{
-		out << i << " " << p[i] << endl;
+		out << i << " " << p[i] << std::endl;
 	}
 	out.close();
 }
@@ -31,7 +31,7 @@ void writerfile(const char *filename, int *p, int imax)
 	ofstream out(filename);
 	for (int i = 0; i < imax; ++i)
 	{
-		out << i << " " << p[i] << endl;
+		out << i << " " << p[i] << std::endl;
 	}
 	out.close();
 }
@@ -129,7 +129,7 @@ void showImage(char *title, const IplImage *img)
 //-------------------------------------------------------
 
 //! Draw all the Ipoints in the provided vector
-void drawIpoints(IplImage *img, vector<Ipoint> &ipts, int tailSize)
+void drawIpoints(IplImage *img, std::vector<Ipoint> &ipts, int tailSize)
 {
 	Ipoint *ipt;
 	float s, o;
@@ -237,7 +237,7 @@ void drawPoint(IplImage *img, Ipoint &ipt)
 //-------------------------------------------------------
 
 //! Draw a single feature on the image
-void drawPoints(IplImage *img, vector<Ipoint> &ipts)
+void drawPoints(IplImage *img, std::vector<Ipoint> &ipts)
 {
 	float s, o;
 	int r1, c1;
@@ -257,7 +257,7 @@ void drawPoints(IplImage *img, vector<Ipoint> &ipts)
 //-------------------------------------------------------
 
 //! Draw descriptor windows around Ipoints in the provided vector
-void drawWindows(IplImage *img, vector<Ipoint> &ipts)
+void drawWindows(IplImage *img, std::vector<Ipoint> &ipts)
 {
 	Ipoint *ipt;
 	float s, o, cd, sd;
@@ -332,7 +332,7 @@ void drawFPS(IplImage *img)
 //-------------------------------------------------------
 
 //! Save the SURF features to file
-void saveSurf(char *filename, vector<Ipoint> &ipts)
+void saveSurf(char *filename, std::vector<Ipoint> &ipts)
 {
 	ofstream outfile(filename);
 
@@ -361,7 +361,7 @@ void saveSurf(char *filename, vector<Ipoint> &ipts)
 //-------------------------------------------------------
 
 //! Load the SURF features from file
-void loadSurf(char *filename, vector<Ipoint> &ipts)
+void loadSurf(char *filename, std::vector<Ipoint> &ipts)
 {
 	int descriptorLength, count;
 	ifstream infile(filename);

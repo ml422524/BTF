@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <cmath>
-
+#include "cv.h"
 //-------------------------------------------------------
 
 class Ipoint; // Pre-declaration
