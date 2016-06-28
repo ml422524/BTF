@@ -1,7 +1,7 @@
 #include "ipoint.h"
 
 //! Populate IpPairVec with matched ipts 
-void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
+void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches, float threshold)
 {
   float dist, d1, d2;
   Ipoint *match;

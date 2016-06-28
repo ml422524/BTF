@@ -53,7 +53,7 @@ public:
 };
 
 //! Ipoint operations
-void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches);
+void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches,float threshold = 0.65);//theshold越小，匹配越严格。
 int translateCorners(IpPairVec &matches, const CvPoint src_corners[4], CvPoint dst_corners[4]);
 
 #endif
