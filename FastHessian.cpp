@@ -52,24 +52,24 @@ void FastHessian::getIpoints()
 	buildResponseMap();
 
 	// Get the response layers
-	ResponseLayer *b, *m, *t;
+	ResponseLayer *bottom, *middle, *top;
 	for (int o = 0; o < octaves; ++o)
 	{
 		for (int i = 0; i <= 1; ++i)
 		{
-			b = responseMap.at(filter_map[o][i]);
-			m = responseMap.at(filter_map[o][i + 1]);
-			t = responseMap.at(filter_map[o][i + 2]);
+			bottom = responseMap.at(filter_map[o][i]);
+			middle = responseMap.at(filter_map[o][i + 1]);
+			top = responseMap.at(filter_map[o][i + 2]);
 
 			// loop over middle response layer at density of the most 
 			// sparse layer (always top), to find maxima across scale and space
-			for (int r = 0; r < t->height; ++r)
+			for (int row = 0; row < top->height; ++row)
 			{
-				for (int c = 0; c < t->width; ++c)
+				for (int col = 0; col < top->width; ++col)
 				{
-					if (isExtremum(r, c, t, m, b))
+					if (isExtremum(row, col, top, middle, bottom))
 					{
-						interpolateExtremum(r, c, t, m, b);
+						interpolateExtremum(row, col, top, middle, bottom);
 					}
 				}
 			}
