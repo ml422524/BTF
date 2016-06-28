@@ -1,5 +1,5 @@
 #include "ipoint.h"
-
+#include <fstream>
 //! Populate IpPairVec with matched ipts 
 void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
 {
@@ -7,6 +7,8 @@ void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
   Ipoint *match;
 
   matches.clear();
+
+	//std::ofstream outfile("data.txt");
 
   for(unsigned int i = 0; i < ipts1.size(); i++) 
   {
@@ -27,7 +29,15 @@ void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
         d2 = dist;
       }
     }
+	/*
+	//debug
+	outfile << "d1 = " << d1 << " d2 = " << d2 << " d1 / d2 = " << d1 / d2;
 
+	if (d1 / d2 < 0.65)
+		outfile << " #" << std::endl;
+	else
+		outfile << std::endl;
+	*/
     // If match has a d1:d2 ratio < 0.65 ipoints are a match
 	if (d1 / d2 < 0.65)
     { 
@@ -37,6 +47,7 @@ void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
       matches.push_back(std::make_pair(ipts1[i], *match));
     }
   }
+  outfile.close();
 }//end of function
 
 //
