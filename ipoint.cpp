@@ -14,22 +14,22 @@ void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
 
     for(unsigned int j = 0; j < ipts2.size(); j++) 
     {
-      dist = ipts1[i] - ipts2[j];  
+      dist = ipts1[i] - ipts2[j];  //计算64维描述子之间的欧式距离
 
-      if(dist<d1) // if this feature matches better than current best
+	  if (dist < d1) // if this feature matches better than current best
       {
         d2 = d1;
         d1 = dist;
         match = &ipts2[j];
       }
-      else if(dist<d2) // this feature matches better than second best
+	  else if (dist < d2) // this feature matches better than second best
       {
         d2 = dist;
       }
     }
 
     // If match has a d1:d2 ratio < 0.65 ipoints are a match
-    if(d1/d2 < 0.65) 
+	if (d1 / d2 < 0.65)
     { 
       // Store the change in position
       ipts1[i].dx = match->x - ipts1[i].x; 
@@ -37,7 +37,7 @@ void getMatches(IpVec &ipts1, IpVec &ipts2, IpPairVec &matches)
       matches.push_back(std::make_pair(ipts1[i], *match));
     }
   }
-}
+}//end of function
 
 //
 // This function uses homography with CV_RANSAC (OpenCV 1.1)
